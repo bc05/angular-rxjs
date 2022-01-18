@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { from, of, interval, pipe } from 'rxjs';
+import { from, of, interval, pipe, Subscriber, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -11,20 +11,17 @@ import { take } from 'rxjs/operators';
 export class AppComponent implements OnInit, OnDestroy {
   name = 'Angular';
 
+  subscription: Subscription = new Subscription();
+
   ngOnInit(): void {
-    interval(1000).pipe(take(10));
-    // .subscribe((value) => console.log(value))
-    // .unsubscribe();
+    this.subscription.add(
+      interval(1000)
+        .pipe(take(10))
+        .subscribe((value) => console.log(value))
+    );
   }
 
-  ngOnDestroy(): void {}
-
-  // generate(limit: number = 10) {
-  //   const numbers = [];
-  //   while (numbers.length < limit) {
-  //     numbers.push(numbers.length + 1);
-  //   }
-
-  //   return numbers;
-  // }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

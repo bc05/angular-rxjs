@@ -56,14 +56,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.add(
       from(requestObservables)
         .pipe(
-          map<
-            Observable<IResponseCep>[],
-            Observable<Observable<IResponseCep>[]>
-          >((chunks) => forkJoin<Observable<IResponseCep>[]>(chunks)),
+          map((chunks) => forkJoin<IResponseCep[]>(chunks)),
           concatMap((chunks) => chunks),
           concatAll(),
           map((chunks) => of(chunks)),
-          combineAll()
+          combineLatestAll()
         )
         .subscribe((listAddress) => {
           this.listAddress = listAddress;

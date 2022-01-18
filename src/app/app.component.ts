@@ -31,7 +31,7 @@ import { AppService, IResponseCep } from './app.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   name = 'Angular';
-  listAddress = [];
+  listAddress: IResponseCep[] = [];
 
   listOfListsCeps = [
     [72898899, 72897002, 72897004, 72897152, 72897154],
